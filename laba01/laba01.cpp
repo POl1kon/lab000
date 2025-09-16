@@ -1,8 +1,10 @@
 ﻿#include <iostream>
+#include <string>
+
 using namespace std;
 struct Tube {
 	string name;
-	float dlina;
+	float length;
 	int diametr;
 	bool sost;
 };
@@ -13,14 +15,55 @@ struct Ks {
 	int workceh;
 	string klass;
 };
+int check() {
+	int num;
+	while (true) {
+		cin >> num;
+		if (num <= 0 || num > 8 || cin.fail()) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "Введено некорректное число. Попробуйте еще раз\n" << endl;
+		}
+		else {
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			return num;
+		}
+	}
+}
 
-void menu() {
+void addPipe(Tube& T) {
+	cout << "Введите название трубы";
+	getline(cin, T.name);
+	cout << "Введите длину трубы";
+	CheckDoubleInput(T.length);
+}
+
+double CheckDoubleInput(double ) {
+	while (true) {
+		cin >> length;
+		if (cin.fail() || length <= 0) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "Введите положительное число" << endl;
+		}
+		else {
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			return length;
+		}
+	}
+}
+
+
+
+
+
+
+void menu(Tube& T,Ks& K) {
 
 
 	while (true) {
 
-		Tube T;
-		Ks K;
+		
 
 
 		cout << "1. Добавить трубу" << endl;
@@ -33,7 +76,7 @@ void menu() {
 		cout << "8. Выход" << endl;
 
 		int number;
-		cin >> number;
+		number = check();
 		cout << "\n";
 
 		switch (number) {
@@ -79,6 +122,8 @@ void menu() {
 
 int main() {
 	setlocale(LC_ALL, "Rus");
+	Tube T;
+	Ks K;
 	menu();
 	return 0;
 }
