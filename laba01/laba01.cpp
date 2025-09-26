@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
 struct Tube {
@@ -15,22 +16,7 @@ struct Ks {
 	int workceh;
 	string klass;
 };
-int check() {
-	int num;
-	while (true) {
-		cin >> num;
-		if (num <= 0 || num > 8 || cin.fail()) {
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << "Введено некорректное число. Попробуйте еще раз\n" << endl;
-			cout << "Ввод";
-		}
-		else {
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			return num;
-		}
-	}
-}
+
 
 float Checkfloat() {
 	float num;
@@ -196,6 +182,58 @@ void CehStop(Ks& ks) {
 	}
 }
 
+void FileSave(const Tube& tube, const Ks& ks, const string& filename = "text.txt") {
+	ofstream text(filename);
+
+
+	if (text.is_open()) {
+		text << "Труба" << endl;
+		text << "Название трубы: " << tube.name << endl;
+		text << "Длина трубы: " << tube.length << endl;
+		text << "Диаметр трубы: " << tube.diametr << endl;
+		text << "Состояние трубы: " << tube.sost << endl;
+
+		text << "Станция" << endl;
+		text << "Название станции : " << ks.name << endl;
+		text << "Количество цехов: " << ks.ceh << endl;
+		text << "Количество цехов в работе" << ks.workceh << endl;
+		text << "Класс станции" << ks.klass << endl;
+
+		cout << "Данные успешно сохранены" << endl;
+	}
+	else{
+		cout << "Ошибка в открытии файла" << endl;
+	}
+	text.close();
+}
+bool FileLoad(Tube& tube, Ks& ks, const string& filename = "text.txt") {
+	ifstream text(filename);
+
+	if (text.is_open()) {
+		getline(text, tube.name);
+		text >> tube.length;
+		text >> tube.diametr;
+		text >> tube.sost;
+		text.ignore();
+
+		getline(text, ks.name);
+		text >> ks.ceh;
+		text >> ks.workceh;
+		text.ignore();
+		getline(text,ks.klass);
+
+		cout << "Данные загруженны из файла" << endl;
+		return 1;
+	}
+	else {
+		cout << "Файл не найден" << endl;
+		return 0;
+	}
+	text.close();
+}
+
+
+
 void menu(Tube& tube,Ks& ks) {
 	bool tube_exist = false; 
 	bool ks_exist = false;
@@ -265,10 +303,21 @@ void menu(Tube& tube,Ks& ks) {
 		}
 		case 6:
 		{
+			if (tube_exist or ks_exist) {
+				FileSave(tube, ks);
+			}
+			else {
+				cout << "Нет данных для сохранения" << endl;
+			}
 			break;
 		}
 		case 7:
 		{
+			if (FileLoad(tube, ks)) {
+				tube_exist = (tube.diametr > 0);
+				ks_exist = (ks.ceh > 0);
+				cout << "Данные успешно загруженны" << endl;
+			}
 			break;
 		}
 		case 8:
@@ -276,7 +325,7 @@ void menu(Tube& tube,Ks& ks) {
 			return;
 		default:
 		{
-			cout << "Введено некорректное число. Попробуйте езе раз" << endl;
+			cout << "Введено некорректное число. Попробуйте еще раз" << endl;
 			cout << "Ввод: " << endl;
 			number = CheckInt();
 		}

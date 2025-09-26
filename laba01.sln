@@ -5,6 +5,11 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "laba01", "laba01\laba01.vcxproj", "{97829528-D3EF-42FD-A268-2F01D6BFB57E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{EC1AE5AB-C65E-4184-A844-34E516D5C7AC}"
+	ProjectSection(SolutionItems) = preProject
+		laba01\text.txt = laba01\text.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
